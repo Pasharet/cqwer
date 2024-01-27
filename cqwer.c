@@ -3,41 +3,46 @@
 #include <windows.h>
 
 int main() {
+
+    char app_version[] = "cqwer-03012024";
+
     short int choice;
     char buffer[32];
 
-    SetConsoleTitle("cqwer-18072023");
-    system("mode con: cols=120 lines=30"); // For Windows XP - 7
+    SetConsoleTitle(app_version);
+    // system("mode con: cols=120 lines=30");
+    system("mode con: cols=80 lines=25"); // 80x25
+    system("color 17");
 
     // MENU
     menu:
     choice = -1;
     system("cls");
-    system("echo PC: \%computername\%");
+    system("echo PC: \%COMPUTERNAME\%");
     printf("ID (LiteManager Pro Server):\n");
     system("reg query \"HKEY_LOCAL_MACHINE\\SYSTEM\\LiteManager\\v3.4\\Server\\Parameters\" /v \"ID (read only)\"");
     printf(
     "\n"
-    " 1. Принудительно завершить работу LibreOffice (taskkill)\n"
-    " 2. Принудительно завершить работу LibreOffice (pskill)\n"
-    "==================== Требуюутся права Aдминистратора ====================\n"
-    " 3. Перезапустить службу \"Windows Search\"\n"
-    " 4. Перезапустить службы \"Сервер\" и \"Рабочая станция\"\n"
-    " 5. Перезапустить службу \"Диспетчер печати\" и удалить все очереди печати\n"
-    " 6. (4+5) Перезапустить службы \"Сервер\", \"Рабочая станция\", \"Диспетчер печати\" и удалить все очереди печати\n"
-    " 7. Перезапустить службу \"Служба загрузки изображений Windows (WIA)\"\n"
-    " 8. Перезапустить службу \"Autodesk Licensing Service\"\n"
-    " 9. Включение поддержки SMBv1 в Windows 10-11 (DISM)\n"
-    "10. sfc /scannow - НЕ РАБОТАЕТ\n"
-    "11. Проверка и восстановление системы Windows 10-11 (DISM)\n"
-    "12. chkdsk C: /f /r\n"
-    "=========================================================================\n"
-    "13. Перезапустить LiteManager Pro Server\n"
-    "14. Удалить пустые папки в AppData (текущий пользователь) и ProgramData\n"
-    "??. Очистка кэша аддонов Garry's Mod\n"
-    "??. GOST 31688-2012 (7-Zip)\n"
-    "\n"
-    " 0. Выход (или CTRL+C)\n"
+    "  1. Принудительно завершить работу LibreOffice (taskkill)\n"
+    "  2. Принудительно завершить работу LibreOffice (pskill)\n"
+    "┌────────────────── Требуюутся права УЗ администратора ──────────────────┐\n"
+    "  3. Перезапустить службу \"Windows Search\"\n"
+    "  4. Перезапустить службы \"Сервер\" и \"Рабочая станция\"\n"
+    "  5. Перезапустить службу \"Диспетчер печати\" и удал. все очер. печ.\n"
+    "  6. Перезапустить службы \"Сервер\", \"Рабочая станция\", \"Диспетчер печати\"\n"
+    "  7. Перезапустить службу \"Служба загрузки изображений Windows (WIA)\"\n"
+    "  8. Перезапустить службу \"Autodesk Licensing Service\"\n"
+    "  9. Включение поддержки SMBv1 в Windows 10 - 11 (DISM)\n"
+    " 10. sfc /scannow\n"
+    " 11. Проверка и восстановление системы Windows 10 - 11 (DISM)\n"
+    " 12. chkdsk C: /f /r\n"
+    "└────────────────────────────────────────────────────────────────────────┘\n"
+    " 13. Перезапустить LiteManager Pro Server\n"
+    " 14. Удалить пустые папки в AppData (текущий пользователь) и ProgramData\n"
+    // " 77. Очистка кэша аддонов Garry's Mod\n"
+    " 88. GOST 31688-2012 (7-Zip)\n"
+    " 99. About\n"
+    "  0. Выход (или CTRL+C)\n"
     "\n"
     );
 
@@ -74,10 +79,12 @@ int main() {
             goto romserver;
         case 14:
             goto clear;
-        case 111:
+        case 77:
             goto gmod;
-        case 222:
+        case 88:
             goto backup;
+        case 99:
+            goto about;
         case 0:
             goto end;
         default:
@@ -171,7 +178,7 @@ int main() {
     sfc:
     system("cls");
     printf("WORKING...\n"); // 1x \n
-    system("start sfc /scannow");
+    system("sfc /scannow");
     goto restart;
 
     // 11. DISM
@@ -205,7 +212,7 @@ int main() {
     system("robocopy \"\%PROGRAMDATA\%\" \"\%PROGRAMDATA\%\" /S /MOVE /NFL /NDL >nul 2>&1");
     goto restart;
 
-    // 111. Garry's Mod
+    // 77. Garry's Mod
     gmod:
     system("cls");
     printf("WORKING...\n\n");
@@ -222,12 +229,28 @@ int main() {
     system("robocopy \"C:\\Program Files (x86)\\Steam\\steamapps\\workshop\" \"C:\\Program Files (x86)\\Steam\\steamapps\\workshop\" /S /MOVE >nul 2>&1");
     goto restart;
 
-    // 222. GOST 31688-2012
+    // 88. GOST 31688-2012
     backup:
     system("cls");
     printf("WORKING...\n"); // 1x \n
-    system("del \"D:\\TRANSFER\\GOST 31688-2012.7z\"");
-    system("C:\\PROGRA~1\\7-Zip\\7z.exe a -t7z \"D:\\TRANSFER\\GOST 31688-2012.7z\" \"D:\\SYNC\\Obsidian\\GOST 31688-2012\" -pP622056714");
+    system("del \"D:\\Share\\GOST 31688-2012.7z\" >nul 2>&1");
+    system("C:\\PROGRA~1\\7-Zip\\7z.exe a -t7z \"D:\\Share\\GOST 31688-2012.7z\" \"D:\\Obsidian\\GOST 31688-2012\" -ppassword_here");
+    goto restart;
+
+    // 99. About
+    about:
+    system("cls");
+    puts(
+    "┌─┐┌─┐ ┬ ┬┌─┐┬─┐\n"
+    "│  │─┼┐│││├┤ ├┬┘\n"
+    "└─┘└─┘└└┴┘└─┘┴└─"
+    );
+    printf("%s\n", app_version);
+    printf(
+    "\n"
+    "www.github.com/Pasharet\n"
+    "\n"
+    );
     goto restart;
 
     // RESTART

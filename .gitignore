@@ -1,10 +1,6 @@
 .vscode
-build-gui.bat
+# installer.nsi
 build.bat
-cqwer-18072023-setup.exe
-cqwer-gui.c
-cqwer-gui.exe
-installer.nsi
+cqwer.bak
 pskill.exe
 pskill64.exe
-updater.bat
